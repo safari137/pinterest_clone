@@ -1,0 +1,16 @@
+<% include ./partials/header %>
+
+<div class="form-container">
+    <div class="text-center"><h2>Add Pin</h2></div>
+    <form method="POST" action="/pin">
+        <div class="form-group">
+            <input type="text" placeholder="Image Url" name="pin[url]" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" placeholder="Title" name="pin[title]" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Add Pin</button>
+    </form>
+</div>
+
+<% include ./partials/footer %>
