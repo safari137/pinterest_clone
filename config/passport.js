@@ -19,7 +19,7 @@ module.exports = function(passport) {
 
         consumerKey     : process.env.TWITTER_KEY,
         consumerSecret  : process.env.TWITTER_SECRET,
-        callbackURL     : 'https://pinterest-clone-safari137.c9users.io/auth/twitter/callback'
+        callbackURL     : process.env.HOST_URL + 'auth/twitter/callback'
 
     },
     function(token, tokenSecret, profile, done) {
@@ -33,16 +33,13 @@ module.exports = function(passport) {
                 if (user) {
                     return done(null, user); 
                 } else {
-                    // if there is no user, create them
                     var newUser                 = new User();
 
-                    // set all of the user data that we need
                     newUser.twitter.id          = profile.id;
                     newUser.twitter.token       = token;
                     newUser.twitter.username    = profile.username;
                     newUser.twitter.displayName = profile.displayName;
 
-                    // save our user into the database
                     newUser.save(function(err) {
                         if (err)
                             throw err;
