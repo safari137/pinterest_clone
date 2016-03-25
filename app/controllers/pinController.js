@@ -1,5 +1,6 @@
 var Pin     = require('../models/pin'),
-    User    = require('../models/user');
+    User    = require('../models/user'),
+    ObjectId = require('mongoose').Types.ObjectId;
     
 var pinController = function() {
     
@@ -45,12 +46,17 @@ var pinController = function() {
     }
     
     this.showUserPins = function(req, res) {
+        if (!ObjectId.isValid(req.params.id)) {
+            res.send({'error' :  'not a valid user'});
+            return;
+        }
+        
         User.findById(req.params.id).populate("pins").exec(function(err, user) {
             if (err) throw err;
             
             var isOwner = (req.isAuthenticated()) ? (req.user._id.toString() === user._id.toString()) : false;
             
-            res.render("./user/pins", { isAuthenticated : req.isAuthenticated(), pins : user.pins, username : user.username, isOwner : isOwner });
+            res.render("user/pins", { isAuthenticated : req.isAuthenticated(), pins : user.pins, username : user.username, isOwner : isOwner });
         });
     }
     

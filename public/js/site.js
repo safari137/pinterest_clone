@@ -1,6 +1,6 @@
 var $container = $('#masonry-grid');
- 
-  $container.imagesLoaded()
+
+$container.imagesLoaded()
   .always(function() {
     
   })
@@ -16,7 +16,7 @@ function replaceBrokenImages(images) {
   var broken = images.filter(function(value) {
     return (value.isLoaded === false);
   });
-  
+
   broken.forEach(function(image, index, arr) {
     var src = image.img.currentSrc;
     $(image.img.offsetParent).children('img').attr('src', '/images/nophoto.png');
