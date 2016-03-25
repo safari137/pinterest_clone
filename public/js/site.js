@@ -18,8 +18,11 @@ function replaceBrokenImages(images) {
   });
   
   broken.forEach(function(image) {
+    console.log(image);
     var src = image.img.currentSrc;
-    $("img[src='" + src + "']").first().attr('src','/images/nophoto.png')
+    console.log($("img[src='" + src + "']").first());
+    $(image.img.offsetParent).children('img').attr('src', '/images/nophoto.png');
+    /*$("img[src='" + src + "']").first().attr('src','/images/nophoto.png')*/
 
   });
 }
