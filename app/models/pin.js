@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 var pinSchema = mongoose.Schema({
-    ownerId : mongoose.Schema.Types.ObjectId,
+    owner : { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "User"
+    },
     url : String,
     title : String
 });

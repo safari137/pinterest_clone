@@ -2,14 +2,69 @@
     width: 50%;
     margin: 25px auto;
     border: 2px solid #333;
+    border-radius: 5px;
     padding: 25px;
+    background: #fff;
 }
 
 .form-container button {
     margin: 10px 0;
 }
 
+.container {
+    width: 75%;
+    margin: 0 auto;
+}
+
 .footer {
     font-size: 13px;
     margin-top: 20px;
+}
+
+.small {
+    width: 100%;
+    height: auto;
+}
+
+
+.grid-item {
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    height: auto;
+    border-radius: 2px;
+    background: #fff;
+} 
+
+.grid-item a {
+    color: orange;
+    letter-spacing: 1px;
+}
+
+.grid-item p {
+    margin: 0;
+}
+
+.navbar-default {
+    background: orange;
+}
+
+.navbar-default .navbar-brand {
+    color: #444;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    background: #555;
+    color: orange;
+}
+
+body {
+    background: #eee;
 }

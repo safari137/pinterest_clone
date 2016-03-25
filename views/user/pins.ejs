@@ -1,17 +1,19 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 
     <div class="container">
-        <div class="text-center"><h2>Pins</h2></div>
+        <div class="text-center"><h3>Pins for user <%= username %></h3></div>
         <div id="masonry-grid">
             
             <% pins.forEach(function(pin) { %>
             
             <div class="grid-item text-center">
-                <img src="<%= pin.url %>" class="small" >
+                <img src="<%= pin.url %>" class="small">
                 <div class="caption">
                     <p class="text-center"><%= pin.title %></p>
-                    <p class="text-center"><a href="/users/<%= pin.owner._id %>"><%= pin.owner.username %></a></p>
+                    <% if (isOwner) { %>
+                        <button class="btn btn-danger btn-xs btn-block delete" id="<%= pin._id %>">Delete</button>
+                    <% } %>
                 </div>
                 
             </div>
@@ -22,9 +24,8 @@
     </div>
 
 <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.js"></script>
 <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script>
 <script src="/js/site.js"></script>
 
-<% include partials/footer %>
+<% include ../partials/footer %>

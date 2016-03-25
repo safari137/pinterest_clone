@@ -1,4 +1,5 @@
 var LocalStrategy   = require('passport-local').Strategy,
+    TwitterStrategy = require('passport-twitter').Strategy,
     User            = require('../app/models/user');
 
 module.exports = function(passport) {
@@ -11,6 +12,48 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
+
+    // Twitter
+    
+    passport.use('twitter', new TwitterStrategy({
+
+        consumerKey     : process.env.TWITTER_KEY,
+        consumerSecret  : process.env.TWITTER_SECRET,
+        callbackURL     : 'https://pinterest-clone-safari137.c9users.io/auth/twitter/callback'
+
+    },
+    function(token, tokenSecret, profile, done) {
+        process.nextTick(function() {
+
+            User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+
+                if (err)
+                    return done(err);
+
+                if (user) {
+                    return done(null, user); 
+                } else {
+                    // if there is no user, create them
+                    var newUser                 = new User();
+
+                    // set all of the user data that we need
+                    newUser.twitter.id          = profile.id;
+                    newUser.twitter.token       = token;
+                    newUser.twitter.username    = profile.username;
+                    newUser.twitter.displayName = profile.displayName;
+
+                    // save our user into the database
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, newUser);
+                    });
+                }
+            });
+        });
+    }));
+
+
 
 
     // SIGN UP

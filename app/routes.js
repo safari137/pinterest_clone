@@ -18,8 +18,17 @@ function routes(app, passport) {
     app.route("/") 
         .get(pinController.showPins);
         
+    app.route("/pin/new")
+        .get(isLoggedIn, pinController.addPinPage);
+        
     app.route("/pin")
         .post(isLoggedIn, pinController.addPin);
+        
+    app.route("/profile")
+        .get(isLoggedIn, userController.showProfile);
+    
+    app.route("/users/:id")
+        .get(pinController.showUserPins);
     
     app.route("/login")
         .get(userController.startLogin)
@@ -28,6 +37,18 @@ function routes(app, passport) {
     app.route("/signup")
         .get(userController.startSignup)
         .post(userController.signup);
+        
+    app.route("/logout")
+        .get(userController.logout);
+        
+    app.route("/auth/twitter")
+        .get(passport.authenticate('twitter'), userController.twitterAuthenticate);
+        
+    app.route("/auth/twitter/callback")
+        .get(passport.authenticate('twitter', { failureRedirect: '/' }), userController.twitterCallback);
+        
+    app.route("/api/pin/:id")
+        .delete(isLoggedIn, pinController.deletePin);
 }
 
 module.exports = routes;

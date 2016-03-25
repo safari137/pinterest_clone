@@ -1,4 +1,5 @@
-var Pin     = require('../models/pin');
+var Pin     = require('../models/pin'),
+    User    = require('../models/user');
     
 var pinController = function() {
     
@@ -7,6 +8,8 @@ var pinController = function() {
     }
     
     this.addPin = function(req, res) {
+        req.body.pin.owner = req.user._id;
+        
         Pin.create(req.body.pin, function(err, pin) {
            if (err) throw err;
            
@@ -26,10 +29,47 @@ var pinController = function() {
     
     
     var getAllPins = function(callback) {
-        Pin.find({}, function(err, pins) {
+        Pin.find({}).populate("owner").exec(function(err, pins) {
            if (err) { callback(err, null); return; } 
            
            callback(null, pins);
         });
     }
+    
+    var getPinsByFilter = function(filter, callback) {
+        Pin.find(filter).populate("owner").exec(function(err, pins) {
+            if (err) { callback(err, null); return; }
+            
+            callback(null, pins);
+        });
+    }
+    
+    this.showUserPins = function(req, res) {
+        User.findById(req.params.id).populate("pins").exec(function(err, user) {
+            if (err) throw err;
+            
+            var isOwner = (req.isAuthenticated()) ? (req.user._id.toString() === user._id.toString()) : false;
+            
+            res.render("./user/pins", { isAuthenticated : req.isAuthenticated(), pins : user.pins, username : user.username, isOwner : isOwner });
+        });
+    }
+    
+    this.deletePin = function(req, res) {
+        Pin.findById(req.params.id, function(err, pin) {
+            if (err) {
+                res.send({'err' : err});
+                return;
+            }
+            
+            if (pin.owner.toString() !== req.user._id.toString()) {
+                res.send({'err' : 'Not Authorized'});
+                return;
+            }
+            
+            pin.remove();
+            res.send({'success' : 'pin removed'});
+        });
+    }
 }
+
+module.exports = pinController;

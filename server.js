@@ -2,7 +2,6 @@ var express     = require('express'),
     app         = express(),
     passport    = require('passport'),
     bodyParser  = require('body-parser'),
-    passport    = require('passport'),
     session     = require('express-session'),
     flash       = require('connect-flash'),
     mongoose    = require('mongoose');
